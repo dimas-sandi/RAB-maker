@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang=id><meta charset=UTF-8><meta name=viewport content="width=device-width, initial-scale=1.0"><title>RAB Maker Interaktif</title><link rel=stylesheet href=RAB-maker.d0cf240d.css><body class=dark-mode>
+    <header>
+        <div class=header-content>
+            <h1 id=rab-title contenteditable data-translate=project_title>Judul Proyek Anda</h1>
+        </div>
+        <div class=header-controls>
+            <div class=language-selector>
+                <span id=language-id class=language-option>ID</span> | <span id=language-en class=language-option>EN</span>
+            </div>
+        </div>
+    </header>
+
+    <div class=controls>
+        <div class=controls-left>
+            <div class=total-box>
+                <span data-translate=total_estimation>Total Estimasi</span>: <span id=total-estimasi>Rp 0</span>
+            </div>
+        </div>
+        <div class=controls-right>
+            <button class="btn theme-toggle-btn" id=theme-toggle>
+                <svg xmlns:xmlns=http://www.w3.org/2000/svg width=24 height=24 fill=none stroke=currentColor stroke-linecap=round stroke-linejoin=round stroke-width=2 class="feather feather-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79"/></svg>
+            </button>
+            <button class=btn id=add-row-btn data-translate=add_category>Tambah Kategori</button>
+            <button class="btn btn-secondary" id=undo-btn>
+                <svg xmlns:xmlns=http://www.w3.org/2000/svg width=18 height=18 aria-hidden=true class="fa-undo fa-w-16 svg-inline--fa" data-icon=undo data-prefix=fas role=img viewBox="0 0 512 512"><path fill=currentColor d="M144 296H48c-26.51 0-48 21.49-48 48v128c0 26.51 21.49 48 48 48h96c26.51 0 48-21.49 48-48V344c0-26.51-21.49-48-48-48m361.94-131.33c-33.36-47.53-91.86-80.6-157.94-80.6-97.16 0-176 78.84-176 176 0 25.07 5.16 49.05 14.48 71.39 6.27 15.01 23.47 22.7 38.48 16.43l13.62-5.71c15.01-6.27 22.7-23.47 16.43-38.48-6.72-16.03-10.15-33.15-10.15-50.63 0-61.86 50.14-112 112-112 40.78 0 76.54 22.21 95.82 56.49 3.51 6.55 10.74 9.17 17.5 6.37l15.34-6.43c7.22-3.02 10.9-11.75 7.64-18.98Z"/></svg>
+            </button>
+            <button class="btn btn-secondary" id=redo-btn>
+                <svg xmlns:xmlns=http://www.w3.org/2000/svg width=18 height=18 aria-hidden=true class="fa-redo fa-w-16 svg-inline--fa" data-icon=redo data-prefix=fas role=img viewBox="0 0 512 512"><path fill=currentColor d="M368 216h96c26.51 0 48-21.49 48-48V40c0-26.51-21.49-48-48-48h-96c-26.51 0-48 21.49-48 48v128c0 26.51 21.49 48 48 48M6.06 347.33c33.36 47.53 91.86 80.6 157.94 80.6 97.16 0 176-78.84 176-176 0-25.07-5.16-49.05-14.48-71.39-6.27-15.01-23.47-22.7-38.48-16.43l-13.62 5.71c-15.01 6.27-22.7 23.47-16.43 38.48 6.72 16.03 10.15 33.15 10.15 50.63 0 61.86-50.14 112-112 112-40.78 0-76.54-22.21-95.82-56.49-3.51-6.55-10.74-9.17-17.5-6.37l-15.34 6.43c-7.22 3.02-10.9 11.75-7.64 18.98Z"/></svg>
+            </button>
+            
+            <div class=dropdown>
+                <button class="btn btn-secondary dropdown-toggle" id=action-dropdown-toggle>
+                    <svg xmlns:xmlns=http://www.w3.org/2000/svg width=18 height=18 fill=none stroke=currentColor stroke-linecap=round stroke-linejoin=round stroke-width=2 class="feather feather-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1=12 x2=12 y1=15 y2=3 /></svg>
+                </button>
+                <div class=dropdown-menu id=action-dropdown-menu>
+                    <button class="btn dropdown-item" id=import-json-btn data-translate=import_json>Import JSON</button>
+                    <button class="btn dropdown-item" id=export-json-btn data-translate=export_json>Export JSON</button>
+                    <button class="btn dropdown-item" id=print-pdf-btn data-translate=print_pdf>Print (PDF)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class=container>
+        <div class=table-container>
+            <table id=rab-table>
+                <thead>
+                    <tr>
+                        <th class=center-print data-translate=module>Modul</th>
+                        <th data-translate=category>Kategori</th>
+                        <th data-translate=component>Komponen</th>
+                        <th class=center-print data-translate=quantity>Jumlah</th>
+                        <th data-translate=unit>Satuan</th>
+                        <th data-translate=unit_price>Harga Satuan (IDR)</th>
+                        <th data-translate=subtotal>Subtotal (IDR)</th>
+                        <th data-translate=description>Keterangan</th>
+                        <th data-translate=image>Gambar</th>
+                        <th class=action-column data-translate=action>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id=rab-tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>© 2025 - RAB Maker <a href=https://dimassandiwrnt.xyz target=_blank rel="noopener noreferrer">Dimas Sandi Wiranata</a> | <span data-translate=footer_text>Simpan sebagai HTML atau gunakan fitur Export JSON/Print.</span></p>
+        </footer>
+    </div>
+
+    <script src=RAB-maker.82398f05.js></script>
+    <script src=RAB-maker.5b0186a1.js></script>
+
