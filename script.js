@@ -1,3 +1,29 @@
+// --- LOCAL STORAGE FUNCTIONS ---
+const LOCAL_STORAGE_KEY = 'rabMakerData';
+
+function saveToLocalStorage(data) {
+    try {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+    } catch (e) {
+        console.error("Error saving to localStorage", e);
+    }
+}
+
+function loadFromLocalStorage() {
+    try {
+        const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (storedData) {
+            return JSON.parse(storedData);
+        }
+    } catch (e) {
+        console.error("Error loading from localStorage", e);
+        // Clear corrupted data
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+    }
+    return null;
+}
+
+
 // --- LANGUAGE MANAGEMENT ---
 let currentLanguage = 'id'; // Default to Indonesian
 
@@ -48,6 +74,7 @@ const rabTitle = document.getElementById('rab-title');
 const addRowBtn = document.getElementById('add-row-btn');
 const undoBtn = document.getElementById('undo-btn');
 const redoBtn = document.getElementById('redo-btn');
+const newDocumentBtn = document.getElementById('new-document-btn'); // New button reference
 
 // Dropdown elements
 const actionDropdownToggle = document.getElementById('action-dropdown-toggle');
@@ -275,7 +302,13 @@ function updateUndoRedoButtons() {
  */
 function saveState() {
     // Ambil data saat ini
-    const currentState = extractTableData();
+    const currentState = {
+        title: rabTitle.textContent,
+        data: extractTableData()
+    };
+    
+    // Simpan ke localStorage
+    saveToLocalStorage(currentState);
     
     // Hapus riwayat masa depan jika kita membuat perubahan baru setelah meng-undo
     if (historyIndex < history.length - 1) {
@@ -295,9 +328,9 @@ function saveState() {
  */
 function undo() {
     if (historyIndex > 0) {
-        historyIndex--;
         // Render ulang tabel dengan state dari riwayat tanpa menyimpan state baru
-        renderTable(history[historyIndex], false);
+        renderTable(history[historyIndex].data, false);
+        rabTitle.textContent = history[historyIndex].title;
         updateUndoRedoButtons();
     }
 }
@@ -309,8 +342,25 @@ function redo() {
     if (historyIndex < history.length - 1) {
         historyIndex++;
         // Render ulang tabel dengan state dari riwayat tanpa menyimpan state baru
-        renderTable(history[historyIndex], false);
+        renderTable(history[historyIndex].data, false);
+        rabTitle.textContent = history[historyIndex].title;
         updateUndoRedoButtons();
+    }
+}
+
+/**
+ * Mengatur ulang tabel ke data awal dan menghapus state tersimpan.
+ */
+function resetToInitialData() {
+    if (confirm("Apakah Anda yakin ingin memulai dokumen baru? Semua data yang belum diekspor akan hilang.")) {
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+        // Ensure translations object exists and has the key before accessing
+        rabTitle.textContent = (translations[currentLanguage] && translations[currentLanguage].project_title) ? translations[currentLanguage].project_title : "Judul Proyek Anda";
+        history = []; // Clear history
+        historyIndex = -1; // Reset history index
+        renderTable(initialData, true); // Render initial data and save its state to history and local storage
+        updateUndoRedoButtons();
+        applyTranslations(); // Apply translations for rabTitle if language is different
     }
 }
 
@@ -501,8 +551,9 @@ function exportData() {
 function importData(jsonContent) {
     try {
         const projectData = JSON.parse(jsonContent);
-        rabTitle.textContent = projectData.title || 'RAB Maker Interaktif';
+        rabTitle.textContent = projectData.title || (translations[currentLanguage] && translations[currentLanguage].project_title) ? translations[currentLanguage].project_title : "Judul Proyek Anda";
         renderTable(projectData.data);
+        saveState(); // Save imported data to history and local storage
         alert('Data RAB berhasil diimport.');
     } catch (error) {
         alert('Gagal mengimport data. Pastikan file JSON valid.');
@@ -569,6 +620,7 @@ document.addEventListener('DOMContentLoaded', function() {
     addRowBtn.addEventListener('click', addNewRow);
     undoBtn.addEventListener('click', undo);
     redoBtn.addEventListener('click', redo);
+    newDocumentBtn.addEventListener('click', resetToInitialData); // New button event listener
 
     // Language selector event listeners
     const languageId = document.getElementById('language-id');
@@ -636,6 +688,14 @@ document.addEventListener('DOMContentLoaded', function() {
         updateLanguageSelector();
     });
 
-    renderTable(initialData, true); // Save initial state
+    // --- LOAD STATE ON INITIALIZATION ---
+    const storedProject = loadFromLocalStorage();
+    if (storedProject) {
+        rabTitle.textContent = storedProject.title;
+        renderTable(storedProject.data, true); // Render loaded data and save its state to history
+    } else {
+        rabTitle.textContent = (translations[currentLanguage] && translations[currentLanguage].project_title) ? translations[currentLanguage].project_title : "Judul Proyek Anda";
+        renderTable(initialData, true); // Render initial data and save its state to history
+    }
     updateUndoRedoButtons();
 });
