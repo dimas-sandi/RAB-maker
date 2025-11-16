@@ -616,6 +616,8 @@ document.addEventListener('DOMContentLoaded', function() {
     importFileInput.addEventListener('change', handleImportFileChange);
 
     // --- EVENT LISTENERS ---
+    rabTitle.addEventListener('input', saveState); // Save state on input for title
+    rabTitle.addEventListener('blur', saveState);  // Save state when title loses focus
     themeToggle.addEventListener('click', toggleTheme);
     addRowBtn.addEventListener('click', addNewRow);
     undoBtn.addEventListener('click', undo);
