@@ -545,16 +545,20 @@ function exportData() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     
-    alert('Data RAB berhasil diexport sebagai JSON.');
+    console.log('Data RAB berhasil diexport sebagai JSON.');
 }
 
 function importData(jsonContent) {
     try {
         const projectData = JSON.parse(jsonContent);
-        rabTitle.textContent = projectData.title || (translations[currentLanguage] && translations[currentLanguage].project_title) ? translations[currentLanguage].project_title : "Judul Proyek Anda";
+        if (projectData.hasOwnProperty('title')) {
+            rabTitle.textContent = projectData.title;
+        } else {
+            rabTitle.textContent = (translations[currentLanguage] && translations[currentLanguage].project_title) ? translations[currentLanguage].project_title : "Judul Proyek Anda";
+        }
         renderTable(projectData.data);
         saveState(); // Save imported data to history and local storage
-        alert('Data RAB berhasil diimport.');
+        console.log('Data RAB berhasil diimport.');
     } catch (error) {
         alert('Gagal mengimport data. Pastikan file JSON valid.');
         console.error('Import Error:', error);
