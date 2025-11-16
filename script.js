@@ -688,16 +688,16 @@ document.addEventListener('DOMContentLoaded', function() {
     detectUserLanguage().then(() => {
         applyTranslations();
         updateLanguageSelector();
-    });
 
-    // --- LOAD STATE ON INITIALIZATION ---
-    const storedProject = loadFromLocalStorage();
-    if (storedProject) {
-        rabTitle.textContent = storedProject.title;
-        renderTable(storedProject.data, true); // Render loaded data and save its state to history
-    } else {
-        rabTitle.textContent = (translations[currentLanguage] && translations[currentLanguage].project_title) ? translations[currentLanguage].project_title : "Judul Proyek Anda";
-        renderTable(initialData, true); // Render initial data and save its state to history
-    }
-    updateUndoRedoButtons();
+        // --- LOAD STATE ON INITIALIZATION ---
+        const storedProject = loadFromLocalStorage();
+        if (storedProject) {
+            rabTitle.textContent = storedProject.title;
+            renderTable(storedProject.data, true); // Render loaded data and save its state to history
+        } else {
+            rabTitle.textContent = (translations[currentLanguage] && translations[currentLanguage].project_title) ? translations[currentLanguage].project_title : "Judul Proyek Anda";
+            renderTable(initialData, true); // Render initial data and save its state to history
+        }
+        updateUndoRedoButtons();
+    });
 });
