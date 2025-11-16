@@ -1,0 +1,786 @@
+/* Aturan untuk halaman cetak */
+@page {
+    size: auto; /* Biarkan browser/pengguna yang menentukan ukuran (A4, Letter, dll) */
+    margin: 1cm; /* Atur margin halaman menjadi 1cm di semua sisi */
+}
+
+/* RESET & BASE - TEMA WINDOWS 11 MODERN */
+:root {
+    --font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;
+    
+    /* Light Theme */
+    --bg-color: #f3f3f3;
+    --content-bg-color: #ffffff;
+    --text-color: #1d1d1d;
+    --text-color-secondary: #606060;
+    --border-color: #e1e1e1;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --header-bg: #f9f9f9;
+    --accent-color: #0078d4;
+    --accent-color-dark: #005a9e;
+    --accent-bg-light: #e7f3ff;
+    --button-bg: #ffffff;
+    --button-border: #d1d1d1;
+    --button-hover-bg: #f9f9f9;
+    --table-hover-bg: #f5faff;
+    --delete-color: #d13438;
+    --delete-hover-bg: #fdf0f0;
+    --disabled-bg: #f9f9f9;
+    --disabled-color: #a1a1a1;
+    --disabled-border: #e1e1e1;
+}
+
+body.dark-mode {
+    /* Dark Theme */
+    --bg-color: #1c1c1c;
+    --content-bg-color: #282828;
+    --text-color: #f0f0f0;
+    --text-color-secondary: #a0a0a0;
+    --border-color: #404040;
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --header-bg: #2d2d2d;
+    --accent-color: #2e93e8;
+    --accent-color-dark: #56a9eb;
+    --accent-bg-light: #2c3a4f;
+    --button-bg: #333333;
+    --button-border: #505050;
+    --button-hover-bg: #3d3d3d;
+    --table-hover-bg: #313131;
+    --delete-color: #ff6e72;
+    --delete-hover-bg: #4a2f30;
+    --disabled-bg: #3a3a3a;
+    --disabled-color: #707070;
+    --disabled-border: #505050;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+body {
+    background: var(--bg-color);
+    padding: 0; /* No padding on body itself */
+    color: var(--text-color);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.container {
+    max-width: 1400px;
+    margin: 0 auto; /* Center the main content area */
+    background: transparent;
+    border-radius: 8px;
+    border: none;
+    box-shadow: none;
+    padding: 24px; /* Padding for the main content area */
+}
+
+/* HEADER & TITLE */
+header {
+    background: var(--header-bg);
+    color: var(--text-color);
+    padding: 24px; /* Consistent padding for the header */
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    max-width: 1400px; /* Constrain header width */
+    margin: 0 auto; /* Center the header */
+    border-top-left-radius: 8px; /* Apply border-radius to top corners */
+    border-top-right-radius: 8px;
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+.header-content {
+    text-align: center;
+    flex-grow: 1;
+    max-width: none; /* Let header control content width */
+    margin: 0; /* No margin needed here */
+    padding: 0; /* No padding needed here */
+}
+h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    cursor: text;
+}
+/* Subtitle is removed, so its styles are removed too */
+.theme-toggle-btn {
+    background: var(--button-bg);
+    border: 1px solid var(--button-border);
+    font-size: 16px; /* Lebih kecil */
+    width: 32px; /* Lebih kecil */
+    height: 32px; /* Lebih kecil */
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: static; /* No longer absolutely positioned */
+    margin-left: 24px; /* Space from header content */
+    flex-shrink: 0; /* Prevent shrinking */
+}
+.theme-toggle-btn:hover {
+    border-color: var(--accent-color);
+}
+
+
+/* CONTROLS & BUTTONS */
+.controls {
+    background: var(--header-bg);
+    padding: 16px 24px; /* Consistent padding for controls */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: calc(0px + 72px); /* Stick below the header (header height = 24+24+24 = 72px approx) */
+    z-index: 100;
+    max-width: 1400px; /* Constrain controls width */
+    margin: 0 auto; /* Center the controls */
+    border-bottom-left-radius: 8px; /* Apply border-radius to bottom corners */
+    border-bottom-right-radius: 8px;
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* LANGUAGE SELECTOR STYLING */
+.language-selector {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text-color);
+}
+
+.language-option {
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
+    user-select: none;
+}
+
+.language-option:hover {
+    background: var(--button-hover-bg);
+    color: var(--accent-color);
+}
+
+.language-option.active {
+    background: var(--accent-color);
+    color: white;
+    text-decoration: underline;
+}
+.controls-left, .controls-right {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: none; /* Let controls div control content width */
+    margin: 0; /* No margin needed here */
+    padding: 0; /* No padding needed here */
+}
+.total-box {
+    background: var(--content-bg-color); /* Menggunakan warna konten agar menyatu */
+    color: var(--accent-color-dark);
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 16px;
+    border: 1px solid var(--border-color); /* Border lebih halus */
+}
+.btn {
+    background: var(--button-bg);
+    color: var(--text-color);
+    border: 1px solid var(--button-border);
+    padding: 6px 12px; /* Lebih kecil */
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px; /* Sedikit lebih kecil */
+    transition: all 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
+}
+.btn:hover {
+    background: var(--button-hover-bg);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+.btn:active {
+    transform: scale(0.98);
+}
+/* Tombol Aksi Utama (Tambah) */
+#add-row-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+#add-row-btn:hover {
+    background-color: var(--accent-color-dark);
+    border-color: var(--accent-color-dark);
+    color: white;
+}
+/* Tombol Sekunder (Export, Print, dll) */
+.btn-secondary { background: var(--button-bg); }
+.btn-tertiary { background: var(--button-bg); }
+#undo-btn, #redo-btn {
+    background-color: var(--button-bg);
+    /* Remove font-size as it's an icon button */
+    padding: 4px; /* Square padding */
+    display: flex; /* Use flex to center SVG */
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; /* Prevent squishing */
+}
+#undo-btn svg, #redo-btn svg {
+    fill: var(--text-color) !important; /* Font Awesome uses fill */
+    stroke: none !important; /* Ensure no stroke */
+    width: 18px !important; /* Explicit size */
+    height: 18px !important; /* Explicit size */
+    display: block !important; /* Ensure it renders as block */
+    overflow: visible !important; /* Prevent clipping */
+    margin: 0 !important; /* No unexpected margins */
+    padding: 0 !important; /* No unexpected padding */
+}
+#undo-btn:disabled, #redo-btn:disabled {
+    background-color: var(--disabled-bg);
+    color: var(--disabled-color);
+    border-color: var(--disabled-border);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+#undo-btn:disabled:hover, #redo-btn:disabled:hover {
+    background-color: var(--disabled-bg);
+    border-color: var(--disabled-border);
+    color: var(--disabled-color);
+}
+
+
+/* TABLE STYLING */
+.table-container {
+    overflow-x: auto;
+    padding: 0 12px 12px;
+}
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 20px 0;
+    min-width: 900px;
+}
+th, td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+th {
+    background-color: var(--header-bg);
+    color: var(--text-color-secondary);
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+tr:nth-child(even) { background-color: transparent; }
+tr:hover { background-color: var(--table-hover-bg); }
+
+/* MODUL COLORS & HEADERS */
+.modul-header {
+    font-weight: 600;
+    font-size: 15px;
+    background-color: var(--accent-bg-light) !important;
+    color: var(--accent-color-dark);
+    cursor: text;
+}
+
+/* IMAGE COLUMN STYLING */
+.image-column {
+    width: 10%; /* Sesuaikan lebar kolom */
+    min-width: 120px; /* Lebar minimum untuk gambar */
+    max-width: 150px;
+    vertical-align: middle;
+    text-align: center;
+}
+.image-preview-container {
+    position: relative;
+    width: 100px; /* Ukuran container preview */
+    height: 60px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--button-hover-bg); /* Light background */
+}
+.image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Gambar akan discale agar pas tanpa terpotong */
+    display: block;
+}
+.image-controls {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 4px;
+    background-color: rgba(0,0,0, 0.7); /* Dark semi-transparent background */
+    border-radius: 4px;
+    padding: 2px;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.2s ease-in-out;
+}
+.image-preview-container:hover .image-controls {
+    opacity: 1; /* Show on hover */
+}
+.btn-image-upload, .btn-image-clear {
+    background: var(--button-bg);
+    border: none;
+    padding: 4px;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; /* Icons in white for dark background */
+    transition: background-color 0.2s;
+}
+.btn-image-upload:hover, .btn-image-clear:hover {
+    background-color: var(--accent-color);
+}
+.btn-image-clear {
+    background-color: var(--delete-color);
+}
+.btn-image-clear:hover {
+    background-color: var(--delete-hover-bg);
+}
+.btn-image-upload svg, .btn-image-clear svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor; /* Inherit color from button */
+    fill: none;
+}
+
+
+/* INPUT & TEXT ALIGNMENT */
+.currency, .center {
+    text-align: right;
+    font-family: 'Segoe UI', 'Consolas', monospace;
+}
+.qty-input, .price-input {
+    width: 100px;
+    padding: 8px;
+    border: 1px solid var(--button-border);
+    border-radius: 4px;
+    text-align: right;
+    background: var(--content-bg-color);
+    color: var(--text-color);
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+.qty-input:focus, .price-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-color) 30%, transparent);
+}
+.print-text { display: none; }
+.note {
+    font-style: normal;
+    color: var(--text-color-secondary);
+    font-size: 13px;
+}
+.total-row {
+    font-weight: 600;
+    background-color: var(--accent-bg-light);
+    color: var(--accent-color-dark);
+}
+.editable-cell { cursor: text; }
+
+/* DELETE BUTTON */
+.delete-btn {
+    background: transparent;
+    color: var(--delete-color);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+}
+.delete-btn:hover {
+    background: var(--delete-hover-bg);
+}
+
+.add-component-header-btn {
+    background: transparent;
+    border: none;
+    color: var(--accent-color);
+    cursor: pointer;
+    padding: 2px;
+    line-height: 1;
+    transition: color 0.2s;
+}
+.add-component-header-btn:hover {
+    color: var(--accent-color-dark);
+}
+
+/* DROPDOWN STYLING */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the icon */
+    width: 32px; /* Consistent with other icon buttons */
+    height: 32px; /* Consistent with other icon buttons */
+    padding: 0; /* Remove padding for icon-only button */
+}
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: var(--content-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    min-width: 160px;
+    z-index: 101; /* Above other controls */
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    padding: 8px 0;
+    margin-top: 4px;
+}
+.dropdown-menu.show {
+    display: flex;
+}
+.dropdown-item {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    padding: 10px 15px;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 14px;
+    font-weight: normal;
+    border-radius: 0; /* Override default button border-radius */
+}
+.dropdown-item:hover {
+    background-color: var(--button-hover-bg);
+    color: var(--text-color);
+}
+.dropdown-item#import-json-btn:hover {
+    color: var(--accent-color); /* Highlight import */
+}
+.dropdown-item#export-json-btn:hover {
+    color: var(--accent-color); /* Highlight export */
+}
+.dropdown-item#print-pdf-btn:hover {
+    color: var(--accent-color); /* Highlight print */
+}
+
+/* FOOTER (PERBAIKAN SINTAKSIS) */
+footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-color-secondary);
+    font-size: 12px;
+    border-top: none; /* Hapus border atas */
+    background-color: transparent; /* Buat background transparan */
+}
+/* DUPLIKASI ERROR TELAH DIHAPUS DARI SINI */
+
+
+/* --- PRINT STYLING (@media print) --- */
+/* Ini adalah kode yang benar untuk mencetak tampilan dokumen */
+@media print {
+    /* 1. Atur Tampilan Dokumen Dasar */
+    body {
+        visibility: visible !important;
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+        color: #000000 !important;
+    }
+    
+    .container {
+        box-shadow: none !important;
+        border: none !important;
+        max-width: none !important;
+        padding: 0 !important;
+    }
+    .table-container {
+        padding: 0 10px !important;
+    }
+
+    /* 2. SEMBUNYIKAN SEMUA ELEMEN INTERAKTIF */
+    .controls,
+    .dropdown,
+    .theme-toggle-btn,
+    .language-selector,
+    .subtitle,
+    .action-column, /* Menyembunyikan kolom Aksi */
+    .image-column, /* Menyembunyikan kolom Gambar */
+    .qty-input,
+    .price-input,
+    .delete-btn,
+    .add-component-header-btn,
+    .image-controls {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    /* 3. TAMPILKAN DATA & TABEL FORMAL */
+    
+    /* Tampilkan teks pengganti input */
+    .print-text {
+        visibility: visible !important;
+        display: inline !important;
+        padding: 0 !important; /* Hilangkan padding berlebih */
+    }
+    
+    /* Pastikan sel yang diedit (teks Modul, Kategori, Komponen) terlihat */
+    .editable-cell {
+        visibility: visible !important;
+        display: table-cell !important;
+        background-color: transparent !important;
+        color: #000000 !important;
+        font-weight: normal !important;
+    }
+    
+    /* Atur style judul */
+    #rab-title {
+        color: #000000 !important;
+        font-size: 20px !important;
+        font-weight: bold !important;
+        padding: 10px 0 !important;
+        text-align: center;
+    }
+    header {
+        background: #ffffff !important;
+        border-bottom: 2px solid #000000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        position: static;
+        box-shadow: none !important;
+    }
+    
+    /* Atur style tabel agar seperti dokumen formal */
+    #rab-table {
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+        min-width: 100% !important;
+        margin: 0 auto !important;
+    }
+    th, td {
+        border: 1px solid #000000 !important;
+        padding: 8px 10px !important;
+        visibility: visible !important;
+        display: table-cell !important;
+        background-color: transparent !important;
+    }
+
+    /* Style untuk Header Kolom */
+    #rab-table thead th {
+        background-color: #e0e0e0 !important;
+        color: #000000 !important;
+    }
+    
+    /* Style untuk Header Modul dan Total */
+    .modul-header, .total-row {
+        background-color: #cccccc !important;
+        color: #000000 !important;
+        font-weight: bold !important;
+    }
+
+    /* Data rata tengah */
+    .center-print {
+        text-align: center !important;
+    }
+    
+    /* Rata kanan untuk mata uang */
+    .currency {
+        text-align: right !important;
+        font-family: 'Segoe UI', Arial, sans-serif !important;
+    }
+    
+    /* Sembunyikan footer di mode print */
+    footer {
+        display: none !important;
+    }
+    /* Atur style tabel agar seperti dokumen formal */
+    #rab-table {
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+        min-width: 100% !important;
+        margin: 0 auto !important;
+        font-size: 9pt !important; /* PERKECIL FONT SAAT CETAK */
+    }
+    th, td {
+        border: 1px solid #000000 !important;
+        padding: 5px 8px !important; /* PERKECIL PADDING SAAT CETAK */
+        visibility: visible !important;
+        display: table-cell !important;
+        background-color: transparent !important;
+    }
+}
+
+/* --- RESPONSIVE DESIGN --- */
+
+/* Medium devices (tablets, less than 1200px) */
+@media (max-width: 1200px) {
+    .container, header, .controls {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
+
+/* Small devices (landscape phones, 768px and down) */
+@media (max-width: 992px) {
+    h1 {
+        font-size: 20px;
+    }
+    .controls {
+        top: calc(0px + 68px); /* Adjust sticky top for smaller header */
+    }
+    .total-box {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+    .btn {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+}
+
+/* Extra small devices (portrait phones, less than 768px) */
+@media (max-width: 768px) {
+    .container {
+        padding: 8px;
+    }
+    header, .controls {
+        padding-left: 12px;
+        padding-right: 12px;
+        border-radius: 0;
+    }
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+        top: calc(0px + 68px);
+    }
+    .controls-left, .controls-right {
+        justify-content: center;
+        width: 100%;
+    }
+    .total-box {
+        text-align: center;
+        width: 100%;
+    }
+
+    /* Responsive Table: From table to card view */
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    table {
+        min-width: 100%;
+        border: none;
+    }
+
+    thead {
+        display: none; /* Sembunyikan header tabel */
+    }
+
+    tr {
+        margin-bottom: 15px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        background: var(--content-bg-color);
+        box-shadow: 0 2px 4px var(--shadow-color);
+    }
+    
+    .modul-header {
+        padding: 12px 15px;
+        border-radius: 6px;
+        text-align: center;
+    }
+    .modul-header td {
+        border: none;
+    }
+
+    td {
+        border: none;
+        border-bottom: 1px solid var(--border-color);
+        position: relative;
+        padding-left: 50%; /* Ruang untuk label */
+        text-align: right; /* Data rata kanan */
+        white-space: normal;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    td:last-child {
+        border-bottom: none;
+    }
+
+    /* Tambahkan label dari header tabel */
+    td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: var(--text-color-secondary);
+    }
+
+    /* Assign data-label content via CSS for each column */
+    #rab-tbody td:nth-of-type(1):before { content: "Modul"; }
+    #rab-tbody td:nth-of-type(2):before { content: "Kategori"; }
+    #rab-tbody td:nth-of-type(3):before { content: "Komponen"; }
+    #rab-tbody td:nth-of-type(4):before { content: "Jumlah"; }
+    #rab-tbody td:nth-of-type(5):before { content: "Satuan"; }
+    #rab-tbody td:nth-of-type(6):before { content: "Harga (IDR)"; }
+    #rab-tbody td:nth-of-type(7):before { content: "Subtotal (IDR)"; }
+    #rab-tbody td:nth-of-type(8):before { content: "Keterangan"; }
+    #rab-tbody td:nth-of-type(9):before { content: "Gambar"; }
+    #rab-tbody td:nth-of-type(10):before { content: "Aksi"; }
+
+    /* Penyesuaian untuk input dan konten sel */
+    .qty-input, .price-input {
+        width: 80px; /* Perkecil input */
+    }
+    .editable-cell {
+        text-align: right; /* Sesuaikan dengan layout sel */
+    }
+    .image-column .image-preview-container {
+        margin: 0; /* Hapus margin auto */
+    }
+    .action-column {
+        justify-content: flex-end; /* Pindahkan tombol ke kanan */
+    }
+    .total-row td {
+        padding-left: 15px;
+        justify-content: center;
+        font-size: 16px;
+    }
+    .total-row td:before {
+        display: none; /* Sembunyikan label untuk baris total */
+    }
+}

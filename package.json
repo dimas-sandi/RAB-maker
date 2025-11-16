@@ -1,0 +1,16 @@
+{
+  "name": "rab-maker",
+  "version": "1.0.0",
+  "description": "RAB Maker Interaktif",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html --dist-dir dist --public-url ./",
+    "deploy": "npm run build && gh-pages -d dist"
+  },
+  "devDependencies": {
+    "parcel": "^2.8.3",
+    "gh-pages": "^5.0.0"
+  },
+  "author": "Dimas Sandi Wiranata",
+  "license": "ISC"
+}

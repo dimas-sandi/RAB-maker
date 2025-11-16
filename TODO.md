@@ -1,0 +1,6 @@
+- [x] Update translations.js: Change unit_price for 'en' to "Unit Price (IDR)"
+- [x] Update script.js: Add applyTranslations function to update text based on data-translate attributes
+- [x] Update script.js: Add detectUserLanguage function using IP geolocation API (ipapi.co)
+- [x] Update script.js: Add event listener for language-select dropdown
+- [x] Update script.js: On DOMContentLoaded, detect language and apply translations
+- [x] Test language switching and auto-detection
